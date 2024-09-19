@@ -17,7 +17,7 @@
         h1 {
             margin-top: 20px;
             color: #ffa500;
-            font-size: 2em; /* Ajustado para ser más pequeño en móviles */
+            font-size: 2em;
             font-weight: bold;
         }
 
@@ -25,12 +25,12 @@
             margin-top: 20px;
             border: 2px solid #333;
             background-color: #e0f7fa;
-            max-width: 100%; /* Asegura que el canvas se ajuste al ancho de la pantalla */
-            height: auto; /* Mantiene la proporción del canvas */
+            max-width: 100%;
+            height: auto;
         }
 
         #fraseLindas, #mensaje {
-            font-size: 1.2em; /* Ajustado para ser más pequeño en móviles */
+            font-size: 1.2em;
             color: #ffa500;
             margin-top: 30px;
             font-weight: bold;
@@ -55,7 +55,6 @@
             background-color: #e89f00;
         }
 
-        /* Media Queries para pantallas pequeñas */
         @media (max-width: 600px) {
             h1 {
                 font-size: 1.5em;
@@ -63,6 +62,7 @@
 
             #fraseLindas, #mensaje {
                 font-size: 1em;
+                margin-top: 20px;
             }
 
             #reiniciarBtn {
@@ -70,9 +70,20 @@
                 font-size: 0.9em;
             }
         }
+
+        /* Estilos para ocultar el audio */
+        #audioPlayer {
+            display: none;
+        }
     </style>
 </head>
 <body>
+    <!-- Añade la música de fondo -->
+    <audio id="audioPlayer" autoplay loop>
+        <source src="cancion.mp3" type="audio/mp3">
+        Tu navegador no soporta la reproducción de audio.
+    </audio>
+
     <h1>flor amarilla</h1>
     <canvas id="girasolCanvas" width="800" height="800"></canvas>
     <p id="fraseLindas"></p>
@@ -84,48 +95,41 @@
             const canvas = document.getElementById('girasolCanvas');
             const ctx = canvas.getContext('2d');
 
-            // Definición de frases lindas
             const frases = [
                 "Eres una persona increíble.",
-                "vamos a aprobar lo juro .",
+                "Vamos a aprobar lo juro.",
                 "Todo lo que sueñas está por llegar.",
-                "bañate porfi.",
+                "Báñate porfi.",
                 "Brillas con luz propia.",
                 "Hoy es un día perfecto para ser feliz.",
-                "layaut.",
+                "Layout.",
                 "Sigue adelante, lo mejor está por venir.",
-                "aaaaaaaaa pero.",
+                "Aaaaaaaa pero.",
                 "Tu sonrisa es contagiosa.",
-                "Eres una persona increíble.",
                 "Cada día es una nueva oportunidad.",
                 "Lo que te hace diferente, te hace especial."
             ];
 
-            // Nombres y mensaje especial
-            const mensaje = "Ezequiel, Agustina, Abigail, joaco, Nai y Micaela les deseo un lindo 21 de septiembre.";
+            const mensaje = "Ezequiel, Agustina, Abigail, Joaco, Nai y Micaela les deseo un lindo 21 de septiembre.";
 
-            // Mostrar frase al azar
             function mostrarFrase() {
                 const frase = frases[Math.floor(Math.random() * frases.length)];
                 document.getElementById("fraseLindas").innerText = frase;
             }
 
-            // Mostrar mensaje final
             function mostrarMensajeFinal() {
                 document.getElementById("mensaje").innerText = mensaje;
             }
 
-            // Dibujar el centro del girasol
             function dibujarCentro() {
                 ctx.beginPath();
-                ctx.arc(400, 400, 50, 0, 2 * Math.PI); // Círculo central
-                ctx.fillStyle = '#8B4513'; // Marrón para el centro del girasol
+                ctx.arc(400, 400, 50, 0, 2 * Math.PI);
+                ctx.fillStyle = '#8B4513';
                 ctx.fill();
             }
 
-            // Dibujar pétalos del girasol
             function dibujarPetalos() {
-                ctx.fillStyle = '#FFD700'; // Amarillo para los pétalos
+                ctx.fillStyle = '#FFD700';
                 const numPetalos = 20;
                 const angulo = (2 * Math.PI) / numPetalos;
                 const petaloBaseWidth = 30;
@@ -139,13 +143,10 @@
                     ctx.rotate(angulo * i);
                     ctx.translate(0, -150);
 
-                    // Pétalo interior
                     ctx.beginPath();
                     ctx.ellipse(0, 0, petaloBaseWidth, petaloBaseHeight, 0, 0, 2 * Math.PI);
-                    ctx.fillStyle = '#FFD700';
                     ctx.fill();
 
-                    // Borde del pétalo
                     ctx.beginPath();
                     ctx.ellipse(0, 0, petaloBaseWidth + petaloBordesWidth, petaloBaseHeight + petaloBordesHeight, 0, 0, 2 * Math.PI);
                     ctx.strokeStyle = '#FFA500';
@@ -156,15 +157,13 @@
                 }
             }
 
-            // Dibujar el girasol paso a paso
             function dibujarGirasol() {
                 let petalosDibujados = 0;
-                const numPetalos = 20; // Ajustado para 20 pétalos
+                const numPetalos = 20;
                 const angulo = (2 * Math.PI) / numPetalos;
 
                 const intervalo = setInterval(() => {
                     if (petalosDibujados < numPetalos) {
-                        // Dibujar pétalos uno por uno
                         ctx.save();
                         ctx.translate(400, 400);
                         ctx.rotate(angulo * petalosDibujados);
@@ -183,26 +182,24 @@
 
                         ctx.restore();
 
-                        // Mostrar frase al azar cada 2 pétalos
                         if (petalosDibujados % 2 === 0) {
                             mostrarFrase();
                         }
 
                         petalosDibujados++;
                     } else {
-                        clearInterval(intervalo); // Detener cuando termine
-                        dibujarCentro(); // Dibujar el centro del girasol al final
-                        mostrarMensajeFinal(); // Mostrar el mensaje final
+                        clearInterval(intervalo);
+                        dibujarCentro();
+                        mostrarMensajeFinal();
                     }
-                }, 500); // Dibujar un pétalo cada 0.5 segundos
+                }, 500);
             }
 
-            dibujarGirasol(); // Iniciar dibujo del girasol
+            dibujarGirasol();
 
-            // Añadir evento al botón de reinicio
             document.getElementById('reiniciarBtn').addEventListener('click', function() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpiar el canvas
-                dibujarGirasol(); // Volver a dibujar el girasol
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                dibujarGirasol();
             });
         };
     </script>
